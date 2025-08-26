@@ -1,0 +1,177 @@
+
+set seed %seed%
+
+READ COOR CARD NAME cor/@seed.cor
+READ COOR CARD NAME vel/@seed.vel COMP
+
+SET MC 12.0107
+SET MH  1.00800
+CALC MT = @MC + @MH
+CALC MU = @MC * @MH / @MT   ! Reduced mass
+
+! Delta E = E1-E0 = 5983.5 cm^-1
+SET DLTE 24.0  ! E1-E0 in kcal/mol
+COOR STAT SELE TYPE C END
+SET XC ?XAVE
+SET YC ?YAVE
+SET ZC ?ZAVE
+COOR STAT SELE TYPE H END
+SET XH ?XAVE
+SET YH ?YAVE
+SET ZH ?ZAVE
+COOR STAT SELE TYPE C END COMP
+SET VXC ?XAVE
+SET VYC ?YAVE
+SET VZC ?ZAVE
+COOR STAT SELE TYPE H END COMP
+SET VXH ?XAVE
+SET VYH ?YAVE
+SET VZH ?ZAVE
+
+CALC E0C = ((@VXC) * (@VXC)) + ((@VYC) * (@VYC))
+CALC E0C = ((@VZC) * (@VZC)) + @E0C
+CALC E0H = ((@VXH) * (@VXH)) + ((@VYH) * (@VYH))
+CALC E0H = ((@VZH) * (@VZH)) + @E0H
+CALC KEC =  (@MC * (@E0C))/2
+CALC KEH =  (@MH * (@E0H))/2
+CALC TKE = @KEC + @KEH
+
+! Center of mass velocity
+CALC VXCM = ( @MC * (@VXC) + @MH * (@VXH) ) / @MT
+CALC VYCM = ( @MC * (@VYC) + @MH * (@VYH) ) / @MT
+CALC VZCM = ( @MC * (@VZC) + @MH * (@VZH) ) / @MT
+
+! Velocities of C-H in the CM frame
+CALC VXC = @VXC - (@VXCM)
+CALC VYC = @VYC - (@VYCM)
+CALC VZC = @VZC - (@VZCM)
+CALC VXH = @VXH - (@VXCM)
+CALC VYH = @VYH - (@VYCM)
+CALC VZH = @VZH - (@VZCM)
+
+! Unit vector of C->H
+CALC DX = @XC - (@XH)
+CALC DY = @YC - (@YH)
+CALC DZ = @ZC - (@ZH)
+CALC DT = (@DX)*(@DX) + (@DY)*(@DY)
+CALC DI = SQRT ( @DT + (@DZ)*(@DZ) )
+CALC DX = @DX / @DI
+CALC DY = @DY / @DI
+CALC DZ = @DZ / @DI
+
+! Velocity components in the direction of C->N
+CALC V1 = (@VXC)*(@DX) + (@VYC)*(@DY)
+CALC VC = @V1 + (@VZC)*(@DZ)
+CALC V2 = (@VXH)*(@DX) + (@VYH)*(@DY)
+CALC VH = @V2 + (@VZH)*(@DZ)
+CALC TMP = @MU * ((@VC)-(@VH))
+CALC RT = SQRT ( (@TMP)*(@TMP) + 2*@MU*@DLTE )
+
+! Extra velocity components due to excitation
+IF @VC .GT. @VH THEN
+   CALC VC = - ((@TMP) - (@RT)) / @MC
+   CALC VH =   ((@TMP) - (@RT)) / @MH
+ELSE
+   CALC VC = - ((@TMP) + (@RT)) / @MC
+   CALC VH =   ((@TMP) + (@RT)) / @MH
+ENDIF
+
+! New velocities C--H
+CALC VXC = @VXC + (@VC)*(@DX) + (@VXCM)
+CALC VYC = @VYC + (@VC)*(@DY) + (@VYCM)
+CALC VZC = @VZC + (@VC)*(@DZ) + (@VZCM)
+CALC VXH = @VXH + (@VH)*(@DX) + (@VXCM)
+CALC VYH = @VYH + (@VH)*(@DY) + (@VYCM)
+CALC VZH = @VZH + (@VH)*(@DZ) + (@VZCM)
+
+
+CALC E0C = ((@VXC) * (@VXC)) + ((@VYC) * (@VYC))
+CALC E0C = ((@VZC) * (@VZC)) + @E0C
+CALC E0H = ((@VXH) * (@VXH)) + ((@VYH) * (@VYH))
+CALC E0H = ((@VZH) * (@VZH)) + @E0H
+CALC KEC =  (@MC * (@E0C))/2
+CALC KEH =  (@MH * (@E0H))/2
+CALC TKE2 = @KEC + @KEH
+
+CALC BT = @TKE2 - @TKE
+
+COOR SET XDIR @VXH YDIR @VYH ZDIR @VZH SELE TYPE H END COMP
+COOR SET XDIR @VXC YDIR @VYC ZDIR @VZC SELE TYPE C END COMP
+
+!COO bending
+SET MC 12.0107
+SET MO 15.9990
+SET MO1 15.9990
+
+! Delta E = E1-E0 = 553. cm^-1
+SET DLTE 1.5  ! E1-E0 in kcal/mol
+COOR STAT SELE TYPE C END
+SET XC ?XAVE
+SET YC ?YAVE
+SET ZC ?ZAVE
+COOR STAT SELE TYPE O END
+SET XO ?XAVE
+SET YO ?YAVE
+SET ZO ?ZAVE
+COOR STAT SELE TYPE O1 END
+SET XO1 ?XAVE
+SET YO1 ?YAVE
+SET ZO1 ?ZAVE
+
+COOR STAT SELE TYPE C END COMP
+SET VXC ?XAVE
+SET VYC ?YAVE
+SET VZC ?ZAVE
+COOR STAT SELE TYPE O END COMP
+SET VXO ?XAVE
+SET VYO ?YAVE
+SET VZO ?ZAVE
+COOR STAT SELE TYPE O1 END COMP
+SET VXO1 ?XAVE
+SET VYO1 ?YAVE
+SET VZO1 ?ZAVE
+
+CALC E0C = ((@VXC) * (@VXC)) + ((@VYC) * (@VYC))
+CALC E0C = ((@VZC) * (@VZC)) + @E0C
+CALC E0O = ((@VXO) * (@VXO)) + ((@VYO) * (@VYO))
+CALC E0O = ((@VZO) * (@VZO)) + @E0O
+CALC E0O1 = ((@VXO1) * (@VXO1)) + ((@VYO1) * (@VYO1))
+CALC E0O1 = ((@VZO1) * (@VZO1)) + @E0O1
+
+CALC KEC =  (@MC * (@E0C))/2
+CALC KEO =  (@MO * (@E0O))/2
+CALC KEO1 =  (@MO1 * (@E0O1))/2
+CALC TKE = @KEC + @KEO + @KEO1
+
+CALC LAMDA = SQRT( @DLTE / @TKE + 1) 
+
+!New velocities
+CALC VXC = @VXC * @LAMDA
+CALC VYC = @VYC * @LAMDA
+CALC VZC = @VZC * @LAMDA
+CALC VXO = @VXO * @LAMDA 
+CALC VYO = @VYO * @LAMDA
+CALC VZO = @VZO * @LAMDA
+CALC VXO1 = @VXO1 * @LAMDA 
+CALC VYO1 = @VYO1 * @LAMDA
+CALC VZO1 = @VZO1 * @LAMDA
+
+CALC E0C = ((@VXC) * (@VXC)) + ((@VYC) * (@VYC))
+CALC E0C = ((@VZC) * (@VZC)) + @E0C
+CALC E0O = ((@VXO) * (@VXO)) + ((@VYO) * (@VYO))
+CALC E0O = ((@VZO) * (@VZO)) + @E0O
+CALC E0O1 = ((@VXO1) * (@VXO1)) + ((@VYO1) * (@VYO1))
+CALC E0O1 = ((@VZO1) * (@VZO1)) + @E0O1
+
+CALC KEC =  (@MC * (@E0C))/2
+CALC KEO =  (@MO * (@E0O))/2
+CALC KEO1 =  (@MO1 * (@E0O1))/2
+CALC TKE2 = @KEC + @KEO + @KEO1
+
+#calculate the energy difference between the total kinetic energy from new velocities and the old velocities
+CALC BT = @TKE2 - @TKE
+!CALC BT = @TKE2 - @DLTE
+
+COOR SET XDIR @VXC YDIR @VYC ZDIR @VZC SELE TYPE C END COMP
+COOR SET XDIR @VXO YDIR @VYO ZDIR @VZO SELE TYPE O END COMP
+COOR SET XDIR @VXO1 YDIR @VYO1 ZDIR @VZO1 SELE TYPE O1 END COMP

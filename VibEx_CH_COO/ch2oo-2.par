@@ -1,0 +1,35 @@
+* ---- 
+* Built parameters for ch2oo-2.mol2 
+*    by user vzoete     Wed Jul  5 12:42:54 UTC 2023 
+* ---- 
+*
+ATOMS
+MASS   201 C=O   12.011000
+MASS   202 HCMM   1.007940
+MASS   203 O=P   15.999400
+MASS   204 OR    15.999400
+
+BONDS
+C=O  HCMM  334.643     1.1010 
+C=O  O=P   616.175     1.2900 
+O=P  OR    352.635     1.4000 
+
+ANGLES
+HCMM C=O  HCMM   42.748    116.6990 
+HCMM C=O  O=P    71.966    120.0000 
+C=O  O=P  OR     71.966    120.0000 
+
+DIHEDRALS
+HCMM C=O  O=P  OR       6.750  2   180.00 
+
+IMPROPER
+C=O  HCMM O=P  HCMM     9.356  0     0.00 
+
+NONBONDED nbxmod  5 atom cdiel shift vatom vdistance vswitch - 
+cutnb 14.0 ctofnb 12.0 ctonnb 10.0 eps 1.0 e14fac 1.0 wmin 1.5 
+C=O     0.000000  -0.110000     2.000000    
+HCMM    0.000000  -0.022000     1.320000    
+O=P     0.000000   -0.152100     1.770000
+OR      0.000000  -0.152100     1.770000    
+
+

@@ -1,0 +1,9 @@
+REMARK  CRIEGEE                                                                       
+REMARK   DATE:    12/12/23     18:38:15      CREATED BY USER: song                    
+ATOM      1  C   LIG     1       0.000   0.246   1.129  1.00  0.00      SYS 
+ATOM      2  H   LIG     1       0.000   1.324   1.044  1.00  0.00      SYS 
+ATOM      3  H1  LIG     1       0.000  -0.327   2.045  1.00  0.00      SYS 
+ATOM      4  O   LIG     1       0.000  -0.449   0.066  1.00  0.00      SYS 
+ATOM      5  O1  LIG     1       0.000   0.202  -1.108  1.00  0.00      SYS 
+TER       6      LIG      1
+END

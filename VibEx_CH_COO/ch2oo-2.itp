@@ -1,0 +1,71 @@
+; ---- 
+; Built itp for ch2oo-2.mol2 
+;    by user vzoete     Wed Jul  5 12:42:54 UTC 2023 
+; ---- 
+;
+
+[ atomtypes ] 
+; name at.num  mass   charge  ptype    sigma            epsilon 
+C=O     6   12.0110  0.0  A         0.356359    0.460240  
+HCMM    1    1.0079  0.0  A         0.235197    0.092048  
+O=P     8   15.9994  0.0  A              NaN         NaN  
+OR      8   15.9994  0.0  A         0.315378    0.636386  
+HOR     1    1.0079  0.0  A         0.040001    0.192464  
+
+
+[ pairtypes ] 
+;  i     j    func     sigma1-4       epsilon1-4 ; THESE ARE 1-4 INTERACTIONS 
+
+[ moleculetype ]
+; Name nrexcl 
+ch2oo-2 3
+
+[ atoms ] 
+; nr type resnr resid atom cgnr charge mass 
+   1 C=O  1  LIG C       1  0.8300  12.0110 
+   2 HCMM 1  LIG H       2  0.0600   1.0079 
+   3 HCMM 1  LIG H1      3  0.0600   1.0079 
+   4 O=P  1  LIG O       4 -0.7530  15.9994 
+   5 OR   1  LIG O1      5  0.4030  15.9994 
+   6 HOR  1  LIG H2      6  0.4000   1.0079 
+
+[ bonds ]
+; ai aj fu b0 kb, b0 kb 
+  1   2 1 0.11010  280029.3  0.11010  280029.3 
+  1   3 1 0.11010  280029.3  0.11010  280029.3 
+  1   4 1 0.12900  515615.2  0.12900  515615.2 
+  4   5 1 0.14000  295085.0  0.14000  295085.0 
+  5   6 1 0.09720  469365.3  0.09720  469365.3 
+
+[ pairs ]
+; ai aj fu 
+  1   6 1  
+  2   5 1  
+  3   5 1  
+
+[ angles ] 
+; ai aj ak fu th0 kth ub0 kub th0 kth ub0 kub 
+  2   1   3 1  116.6990  357.72    116.6990  357.72 
+  2   1   4 1  120.0000  602.21    120.0000  602.21 
+  3   1   4 1  120.0000  602.21    120.0000  602.21 
+  1   4   5 1  120.0000  602.21    120.0000  602.21 
+  4   5   6 1  109.5000  722.65    109.5000  722.65 
+
+[ dihedrals ] 
+; ai aj ak al fu phi0 kphi mult phi0 kphi mult 
+  2   1   4   5 9 180.00  28.2420 2   180.00  28.2420 2 
+  3   1   4   5 9 180.00  28.2420 2   180.00  28.2420 2 
+
+[ dihedrals ]
+; ai aj ak al fu xi0 kxi xi0 kxi 
+  1   2   4   3 2   0.00  78.2910     0.00  78.2910
+
+
+#ifdef POSRES_LIGAND 
+[ position_restraints ] 
+; atom  type      fx      fy      fz 
+   1 1 1000 1000 1000 
+   4 1 1000 1000 1000 
+   5 1 1000 1000 1000 
+#endif 
+

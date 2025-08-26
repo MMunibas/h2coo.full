@@ -1,0 +1,43 @@
+PSF CMAP XPLOR
+
+       2 !NTITLE
+* CRIEGEE                                                                       
+*  DATE:    12/12/23     18:38:15      CREATED BY USER: song                    
+
+       5 !NATOM
+       1 SYS  1    LIG  C    C=O    0.313000       12.0110           0
+       2 SYS  1    LIG  H    HCMM   0.205000       1.00794           0
+       3 SYS  1    LIG  H1   HCMM   0.192000       1.00794           0
+       4 SYS  1    LIG  O    O=P   -0.174000       15.9994           0
+       5 SYS  1    LIG  O1   OR    -0.536000       15.9994           0
+
+       4 !NBOND: bonds
+       1       2       1       3       1       4       4       5
+
+       4 !NTHETA: angles
+       2       1       3       2       1       4       3       1       4
+       1       4       5
+
+       2 !NPHI: dihedrals
+       2       1       4       5       3       1       4       5
+
+       1 !NIMPHI: impropers
+       1       2       4       3
+
+       0 !NDON: donors
+
+
+       0 !NACC: acceptors
+
+
+       0 !NNB
+
+       0       0       0       0       0
+
+       1       0 !NGRP NST2
+       0       1       0
+
+       0       0 !NUMLP NUMLPH
+
+       0 !NCRTERM: cross-terms
+
